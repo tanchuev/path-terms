@@ -104,10 +104,10 @@ class SimpleRouter {
                     <footer class="footer">
                         <div class="footer-content">
                             <button class="footer-link feedback-btn" onclick="router.navigate('/feedback')">
-                                Отзывы и поддержка
+                                Feedback & Support
                             </button>
                             <a class="footer-link privacy-link" onclick="router.navigate('/privacy')">
-                                Политика конфиденциальности
+                                Privacy Policy
                             </a>
                         </div>
                     </footer>
@@ -219,15 +219,15 @@ class SimpleRouter {
                 <div class="content page-content">
                     <header class="page-header">
                         <button class="back-button" onclick="router.navigate('/')">
-                            ← Назад
+                            ← Back
                         </button>
-                        <h1>Политика конфиденциальности</h1>
+                        <h1>Privacy Policy</h1>
                     </header>
                     
                     <div class="page-body">
                         <div class="privacy-content">
-                            <p>Здесь будет содержание политики конфиденциальности.</p>
-                            <p>Дата последнего обновления: ${new Date().toLocaleDateString('ru-RU')}</p>
+                            <p>Privacy policy content will be here.</p>
+                            <p>Last updated: ${new Date().toLocaleDateString('en-US')}</p>
                         </div>
                     </div>
                 </div>
@@ -246,15 +246,15 @@ class SimpleRouter {
                 <div class="content page-content">
                     <header class="page-header">
                         <button class="back-button" onclick="router.navigate('/')">
-                            ← Назад
+                            ← Back
                         </button>
-                        <h1>Отзывы и поддержка</h1>
+                        <h1>Feedback & Support</h1>
                     </header>
                     
                     <div class="page-body">
                         <form class="feedback-form" onsubmit="handleFeedbackSubmit(event)">
                             <div class="form-group">
-                                <label for="name">Ваше имя</label>
+                                <label for="name">Your Name</label>
                                 <input type="text" id="name" name="name" required>
                             </div>
                             
@@ -264,12 +264,12 @@ class SimpleRouter {
                             </div>
                             
                             <div class="form-group">
-                                <label for="message">Сообщение</label>
+                                <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="5" required></textarea>
                             </div>
                             
                             <button type="submit" class="submit-button">
-                                Отправить
+                                Send
                             </button>
                         </form>
                     </div>
@@ -290,7 +290,7 @@ function handleFeedbackSubmit(event) {
     console.log('Данные формы:', data);
     
     // Показать уведомление об успешной отправке
-    alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
+    alert('Thank you for your message! We will contact you soon.');
     
     // Очистить форму
     event.target.reset();
