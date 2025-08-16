@@ -275,7 +275,6 @@ class SimpleRouter {
                             <input type="hidden" name="access_key" value="${WEB3FORMS_CONFIG.accessKey}">
                             <input type="hidden" name="subject" value="Path Game Feedback">
                             <input type="hidden" name="from_name" value="">
-                            <input type="hidden" name="redirect" value="${window.location.href}">
                             
                             <div class="form-group">
                                 <label for="category">Category</label>
@@ -589,6 +588,18 @@ async function handleFeedbackSubmit(event) {
 
 // Отправка email через Web3Forms
 async function sendWeb3Forms(data) {
+    // Попробуем сначала fetch API
+    try {
+        return await sendWeb3FormsFetch(data);
+    } catch (error) {
+        // Если fetch не работает, используем XMLHttpRequest как fallback
+        console.log('Fetch failed, trying XMLHttpRequest fallback:', error.message);
+        return await sendWeb3FormsXHR(data);
+    }
+}
+
+// Отправка через Fetch API
+async function sendWeb3FormsFetch(data) {
     // Подготовка данных для Web3Forms
     const formData = new FormData();
     
@@ -601,20 +612,81 @@ async function sendWeb3Forms(data) {
     
     // Дополнительные поля
     formData.append('category', data.category);
-    formData.append('redirect', window.location.href); // Redirect обратно на страницу
     
     // Отправка запроса
     const response = await fetch(WEB3FORMS_CONFIG.endpoint, {
         method: 'POST',
-        body: formData
+        body: formData,
+        redirect: 'manual' // Не следовать редиректам автоматически
     });
     
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+    // Web3Forms возвращает 301 редирект при успешной отправке для AJAX запросов
+    if (response.status === 301 || response.status === 302) {
+        // Успешная отправка
+        return { success: true, message: 'Email sent successfully' };
     }
     
-    return response.json();
+    if (response.status === 200) {
+        // Попробуем прочитать JSON ответ
+        try {
+            return await response.json();
+        } catch (e) {
+            // Если не JSON, считаем успешным
+            return { success: true, message: 'Email sent successfully' };
+        }
+    }
+    
+    // Для других статусов - ошибка
+    if (!response.ok) {
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+            // Если не можем прочитать JSON, используем стандартное сообщение
+        }
+        throw new Error(errorMessage);
+    }
+    
+    return { success: true, message: 'Email sent successfully' };
+}
+
+// Отправка через XMLHttpRequest (fallback)
+function sendWeb3FormsXHR(data) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        
+        // Подготовка данных
+        formData.append('access_key', WEB3FORMS_CONFIG.accessKey);
+        formData.append('subject', `Path Game Feedback - ${data.category}`);
+        formData.append('from_name', data.name);
+        formData.append('email', data.email);
+        formData.append('message', data.message);
+        formData.append('category', data.category);
+        
+        xhr.open('POST', WEB3FORMS_CONFIG.endpoint);
+        
+        xhr.onload = function() {
+            // Web3Forms возвращает 301 для успешной отправки
+            if (xhr.status === 301 || xhr.status === 302 || xhr.status === 200) {
+                resolve({ success: true, message: 'Email sent successfully' });
+            } else {
+                reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
+            }
+        };
+        
+        xhr.onerror = function() {
+            reject(new Error('Network error occurred'));
+        };
+        
+        xhr.ontimeout = function() {
+            reject(new Error('Request timeout'));
+        };
+        
+        xhr.timeout = 30000; // 30 секунд таймаут
+        xhr.send(formData);
+    });
 }
 
 // Проверка rate limiting (1 сообщение в 5 минут)
