@@ -4,6 +4,9 @@ class SimpleRouter {
         this.routes = {};
         this.currentRoute = null;
         
+        // Определение базового пути для GitHub Pages
+        this.basePath = this.getBasePath();
+        
         // Обработка изменения URL
         window.addEventListener('popstate', () => this.handleRoute());
         
@@ -11,11 +14,21 @@ class SimpleRouter {
         this.init();
     }
     
+    getBasePath() {
+        // Проверяем, если это GitHub Pages
+        if (window.location.hostname.includes('github.io')) {
+            // Для GitHub Pages вида username.github.io/repository-name
+            // Базовый путь всегда /path-terms
+            return '/path-terms';
+        }
+        return '';
+    }
+    
     init() {
-        // Регистрация маршрутов
-        this.register('/', this.renderLanding);
-        this.register('/privacy', this.renderPrivacy);
-        this.register('/feedback', this.renderFeedback);
+        // Регистрация маршрутов с учетом базового пути
+        this.register(this.basePath + '/', this.renderLanding);
+        this.register(this.basePath + '/privacy', this.renderPrivacy);
+        this.register(this.basePath + '/feedback', this.renderFeedback);
         
         // Обработка начального маршрута
         this.handleRoute();
@@ -26,13 +39,14 @@ class SimpleRouter {
     }
     
     navigate(path) {
-        window.history.pushState({}, '', path);
+        const fullPath = this.basePath + path;
+        window.history.pushState({}, '', fullPath);
         this.handleRoute();
     }
     
     handleRoute() {
         const path = window.location.pathname;
-        const handler = this.routes[path] || this.routes['/'];
+        const handler = this.routes[path] || this.routes[this.basePath + '/'];
         
         if (handler) {
             handler.call(this);
@@ -235,7 +249,8 @@ class SimpleRouter {
         `;
         
         try {
-            const markdownContent = await this.loadMarkdownFile('privacy_policy.md');
+            const privacyPath = this.basePath ? `${this.basePath}/privacy_policy.md` : 'privacy_policy.md';
+            const markdownContent = await this.loadMarkdownFile(privacyPath);
             const htmlContent = this.parseMarkdown(markdownContent);
             
             const privacyContentDiv = document.querySelector('.privacy-content');
