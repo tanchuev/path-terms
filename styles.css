@@ -65,9 +65,9 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    padding: 60px 20px 20px;
+    padding: 40px 20px 20px;
     min-height: 100vh;
 }
 
@@ -79,7 +79,7 @@ body {
     flex-direction: column;
     align-items: center;
     animation: fadeInDown 0.8s ease;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .game-title {
@@ -111,7 +111,7 @@ body {
 
 .footer {
     width: 100%;
-    padding: 20px 20px 40px;
+    padding: 15px 20px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -125,8 +125,7 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeInUp 0.8s ease 0.6s both;
-    flex: 1;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .store-buttons {
@@ -195,7 +194,7 @@ body {
     height: 50px;
     border-radius: 50%;
     background: #ffffff;
-    margin: 60px auto;
+    margin: 30px auto;
     opacity: 1;
     pointer-events: none;
     box-shadow:
@@ -467,7 +466,7 @@ body {
 }
 
 .page-header {
-    padding: 20px;
+    padding: 0px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
@@ -580,13 +579,13 @@ body {
 /* Мобильные устройства (вертикальная ориентация) */
 @media (max-width: 480px) {
     .content {
-        padding: 40px 15px 15px;
-        justify-content: flex-start;
+        padding: 30px 15px 15px;
+        justify-content: space-between;
     }
     
     .game-title {
         font-size: 55px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     
     .game-subtitle {
@@ -594,9 +593,9 @@ body {
     }
     
     .glowing-orb {
-        width: 40px;
-        height: 40px;
-        margin: 40px auto;
+        width: 50px;
+        height: 50px;
+        margin: 25px auto;
     }
     
     .screenshots-section {
@@ -628,9 +627,9 @@ body {
     }
     
     .download-section {
-        flex: 1;
         display: flex;
         align-items: center;
+        padding: 10px 0;
     }
     
     .footer {
@@ -645,7 +644,8 @@ body {
 /* Планшеты (портретная ориентация) */
 @media (min-width: 481px) and (max-width: 768px) {
     .content {
-        padding: 50px 30px 30px;
+        padding: 35px 30px 20px;
+        justify-content: space-between;
     }
     
     .game-title {
@@ -672,7 +672,8 @@ body {
 /* Планшеты (ландшафтная) и малые десктопы */
 @media (min-width: 769px) and (max-width: 1024px) {
     .content {
-        padding: 60px 40px;
+        padding: 40px 40px 30px;
+        justify-content: space-between;
     }
     
     .screenshots-section {
@@ -691,9 +692,10 @@ body {
 /* Десктопы */
 @media (min-width: 1025px) {
     .content {
-        padding: 80px 50px 40px;
+        padding: 50px 50px 30px;
         max-width: 1400px;
         margin: 0 auto;
+        justify-content: space-between;
     }
     
     .game-title {
@@ -745,7 +747,7 @@ body {
 @media (max-height: 500px) and (orientation: landscape) {
     .content {
         padding: 20px;
-        justify-content: flex-start;
+        justify-content: space-between;
     }
     
     .game-title {
@@ -758,9 +760,9 @@ body {
     }
     
     .glowing-orb {
-        width: 30px;
-        height: 30px;
-        margin: 25px auto;
+        width: 50px;
+        height: 50px;
+        margin: 20px auto;
     }
     
     .screenshots-section {
@@ -777,12 +779,11 @@ body {
     }
     
     .download-section {
-        flex: 1;
-        padding: 10px 0;
+        padding: 8px 0;
     }
     
     .footer {
-        padding: 15px;
+        padding: 10px;
     }
 }
 
