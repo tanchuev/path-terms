@@ -41,6 +41,19 @@ class SimpleRouter {
     
     renderLanding() {
         const app = document.getElementById('app');
+        
+        // Массив скриншотов
+        const screenshots = [
+            'Screenshot_1755113086.png',
+            'Screenshot_1755113166.png',
+            'Screenshot_1755113220.png',
+            'Screenshot_1755113260.png',
+            'Screenshot_1755113298.png',
+            'Screenshot_1755113337.png',
+            'Screenshot_1755113416.png',
+            'Screenshot_1755113533.png'
+        ];
+        
         app.innerHTML = `
             <div class="landing-page">
                 <div class="background-container">
@@ -53,37 +66,146 @@ class SimpleRouter {
                         <p class="game-subtitle">Zen. Flow. Puzzle.</p>
                         
                         <div class="glowing-orb"></div>
-                        
+                    </header>
+                    
+                    <section class="screenshots-section">
+                        <div class="screenshots-container">
+                            <div class="screenshots-track" id="screenshotsTrack">
+                                ${screenshots.map((screenshot, index) => `
+                                    <div class="screenshot-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
+                                        <img src="assets/screenshots/${screenshot}" alt="Path Screenshot ${index + 1}" loading="lazy">
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="screenshots-dots">
+                                ${screenshots.map((_, index) => `
+                                    <button class="screenshot-dot ${index === 0 ? 'active' : ''}" data-index="${index}" onclick="router.goToSlide(${index})"></button>
+                                `).join('')}
+                            </div>
+                            <button class="screenshot-nav screenshot-prev" onclick="router.prevSlide()">‹</button>
+                            <button class="screenshot-nav screenshot-next" onclick="router.nextSlide()">›</button>
+                        </div>
+                    </section>
+                    
+                    <section class="download-section">
                         <div class="store-buttons">
-                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button">
+                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store">
                                 <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
                             </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google">
+                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play">
                                 <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
                             </a>
                             <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore">
                                 <img src="https://www.rustore.ru/help/icons/logo-color-dark.png" alt="Доступно в RuStore">
                             </a>
                         </div>
-                    </header>
-                    
-                    <div class="main-content">
-                        <!-- Основной контент -->
-                    </div>
+                    </section>
                     
                     <footer class="footer">
-                        <div class="footer-links">
-                            <button class="footer-link" onclick="router.navigate('/feedback')">
-                                Обратная связь
+                        <div class="footer-content">
+                            <button class="footer-link feedback-btn" onclick="router.navigate('/feedback')">
+                                Отзывы и поддержка
                             </button>
-                            <p class="privacy-text" onclick="router.navigate('/privacy')">
+                            <a class="footer-link privacy-link" onclick="router.navigate('/privacy')">
                                 Политика конфиденциальности
-                            </p>
+                            </a>
                         </div>
                     </footer>
                 </div>
             </div>
         `;
+        
+        // Инициализация слайдера после рендеринга
+        this.initSlider();
+    }
+    
+    // Методы для управления слайдером
+    initSlider() {
+        this.currentSlide = 0;
+        this.totalSlides = 8;
+        this.autoPlayInterval = null;
+        
+        // Автоматическое переключение слайдов
+        this.startAutoPlay();
+        
+        // Свайп для мобильных устройств
+        this.initTouchEvents();
+    }
+    
+    startAutoPlay() {
+        this.autoPlayInterval = setInterval(() => {
+            this.nextSlide();
+        }, 4000);
+    }
+    
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+        }
+    }
+    
+    goToSlide(index) {
+        this.currentSlide = index;
+        this.updateSlider();
+        this.stopAutoPlay();
+        this.startAutoPlay();
+    }
+    
+    nextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        this.updateSlider();
+    }
+    
+    prevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.updateSlider();
+        this.stopAutoPlay();
+        this.startAutoPlay();
+    }
+    
+    updateSlider() {
+        const track = document.getElementById('screenshotsTrack');
+        if (!track) return;
+        
+        // Обновление позиции трека
+        track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+        
+        // Обновление активного слайда
+        document.querySelectorAll('.screenshot-slide').forEach((slide, index) => {
+            slide.classList.toggle('active', index === this.currentSlide);
+        });
+        
+        // Обновление точек
+        document.querySelectorAll('.screenshot-dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+    
+    initTouchEvents() {
+        const container = document.querySelector('.screenshots-container');
+        if (!container) return;
+        
+        let startX = 0;
+        let endX = 0;
+        
+        container.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        container.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Минимальное расстояние для свайпа
+                if (diff > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+                this.stopAutoPlay();
+                this.startAutoPlay();
+            }
+        });
     }
     
     renderPrivacy() {
@@ -126,7 +248,7 @@ class SimpleRouter {
                         <button class="back-button" onclick="router.navigate('/')">
                             ← Назад
                         </button>
-                        <h1>Обратная связь</h1>
+                        <h1>Отзывы и поддержка</h1>
                     </header>
                     
                     <div class="page-body">

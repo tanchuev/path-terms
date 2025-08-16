@@ -65,9 +65,9 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 60px 20px 20px;
     min-height: 100vh;
 }
 
@@ -78,26 +78,32 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadeInDown 0.8s ease;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 .game-title {
     font-family: 'HUNoodles-Bold', sans-serif;
-    font-size: clamp(60px, 15vw, 120px);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.25) 100%);
+    font-size: clamp(50px, 12vw, 100px);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.35) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    margin-bottom: 10px;
-    letter-spacing: -0px;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    padding-top: 5px;
 }
 
 .game-subtitle {
     font-family: 'HUNoodles-Bold', sans-serif;
-    font-size: clamp(24px, 6vw, 48px);
-    color: rgba(255, 255, 255, 0.55);
+    font-size: clamp(20px, 5vw, 36px);
+    color: rgba(255, 255, 255, 0.7);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
 }
 
 .main-content {
@@ -105,113 +111,274 @@ body {
 }
 
 .footer {
-    padding: 20px;
+    width: 100%;
+    padding: 40px 20px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadeIn 0.8s ease 0.8s both;
+}
+
+.download-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease 0.6s both;
+    margin-bottom: auto;
 }
 
 .store-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 0px;
+    gap: 15px;
     justify-content: center;
     align-items: center;
     position: relative;
     z-index: 1;
+    padding: 10px;
 }
 
 .store-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    height: 80px;
-    min-width: 180px;
+    height: 55px;
+    min-width: 155px;
     position: relative;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
 .store-button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: translateY(-2px) scale(1.03);
+    opacity: 0.85;
 }
 
 .store-button img {
-    height: 50px;
+    height: 100%;
     width: auto;
     object-fit: contain;
 }
 
-/* RuStore badge без фона */
-.store-button.rustore {
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
-}
-
-.store-button.rustore img {
+.store-button.app-store {
     height: 50px;
 }
 
-/* Google Play кнопка с увеличенной высотой */
-.store-button.google {
-    height: 120px;
+.store-button.google-play {
+    height: 50px;
+    min-width: 170px;
 }
 
-.store-button.google img {
-    height: 70px;
+.store-button.google-play img {
+    height: 75px;
+    margin: -12px 0;
+}
+
+.store-button.rustore {
+    height: 50px;
+    min-width: 155px;
+}
+
+.store-button.rustore img {
+    height: 45px;
 }
 
 /* Шарик под подзаголовком */
 .glowing-orb {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #ffffff;
-    margin: 30px auto 40px auto;
+    margin: 40px auto 60px;
     opacity: 1;
     pointer-events: none;
     box-shadow:
-        0 0 60px rgba(255, 255, 255, 0.8),
-        0 0 100px rgba(255, 255, 255, 0.6),
-        0 0 150px rgba(255, 255, 255, 0.4),
-        0 0 200px rgba(255, 255, 255, 0.2);
-    animation: glow 4s ease-in-out infinite;
+        0 0 40px rgba(255, 255, 255, 1.0),
+        0 0 80px rgba(255, 255, 255, 0.8),
+        0 0 120px rgba(255, 255, 255, 0.6),
+        0 0 160px rgba(255, 255, 255, 0.4);
+    animation: glow 3s ease-in-out infinite;
 }
 
 @keyframes glow {
     0% {
         box-shadow:
-            0 0 60px rgba(255, 255, 255, 0.8),
-            0 0 100px rgba(255, 255, 255, 0.6),
-            0 0 150px rgba(255, 255, 255, 0.4),
-            0 0 200px rgba(255, 255, 255, 0.2);
+            0 0 40px rgba(255, 255, 255, 0.8),
+            0 0 80px rgba(255, 255, 255, 0.6),
+            0 0 120px rgba(255, 255, 255, 0.4),
+            0 0 160px rgba(255, 255, 255, 0.2);
     }
 
     50% {
         box-shadow:
-            0 0 80px rgba(255, 255, 255, 1),
-            0 0 120px rgba(255, 255, 255, 0.8),
-            0 0 180px rgba(255, 255, 255, 0.6),
-            0 0 240px rgba(255, 255, 255, 0.4);
+            0 0 60px rgba(255, 255, 255, 1),
+            0 0 100px rgba(255, 255, 255, 0.8),
+            0 0 140px rgba(255, 255, 255, 0.6),
+            0 0 180px rgba(255, 255, 255, 0.4);
     }
 
     100% {
         box-shadow:
-            0 0 60px rgba(255, 255, 255, 0.8),
-            0 0 100px rgba(255, 255, 255, 0.6),
-            0 0 150px rgba(255, 255, 255, 0.4),
-            0 0 200px rgba(255, 255, 255, 0.2);
+            0 0 40px rgba(255, 255, 255, 0.8),
+            0 0 80px rgba(255, 255, 255, 0.6),
+            0 0 120px rgba(255, 255, 255, 0.4),
+            0 0 160px rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Галерея скриншотов - скрыта */
+.screenshots-section {
+    display: none;
+    width: 100%;
+    max-width: 900px;
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.screenshots-container {
+    position: relative;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.screenshots-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.screenshot-slide {
+    flex: 0 0 100%;
+    position: relative;
+    aspect-ratio: 9/16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+}
+
+.screenshot-slide.active {
+    opacity: 1;
+}
+
+.screenshot-slide img {
+    width: auto;
+    height: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+.screenshots-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.screenshot-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.screenshot-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.screenshot-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.screenshot-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.screenshot-prev {
+    left: 15px;
+}
+
+.screenshot-next {
+    right: 15px;
+}
+
+.screenshot-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Анимации появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 
-.footer-links {
+.footer-content {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
 }
 
 .footer-link {
@@ -219,38 +386,46 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.9);
-    padding: 14px 28px;
-    border-radius: 30px;
-    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'MADE Likes Slab', sans-serif;
     font-weight: normal;
     text-decoration: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+    width: 100%;
+    text-align: center;
+}
+
+.feedback-btn {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .footer-link:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
-.privacy-text {
-    color: rgba(255, 255, 255, 0.5);
+.privacy-link {
     font-size: 14px;
-    font-family: 'MADE Likes Slab', sans-serif;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    margin: 0;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
     text-decoration: underline;
     text-underline-offset: 3px;
 }
 
-.privacy-text:hover {
-    color: rgba(255, 255, 255, 0.7);
+.privacy-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
 }
+
 
 
 
@@ -395,4 +570,228 @@ body {
 .submit-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Адаптивные стили */
+
+/* Мобильные устройства (вертикальная ориентация) */
+@media (max-width: 480px) {
+    .content {
+        padding: 40px 15px 15px;
+        justify-content: space-between;
+    }
+    
+    .game-title {
+        font-size: 55px;
+        margin-top: 20px;
+    }
+    
+    .game-subtitle {
+        font-size: 22px;
+    }
+    
+    .glowing-orb {
+        width: 40px;
+        height: 40px;
+        margin: 30px auto 50px;
+    }
+    
+    .screenshots-section {
+        margin: 0 -15px;
+        width: calc(100% + 30px);
+    }
+    
+    .screenshots-container {
+        border-radius: 0;
+    }
+    
+    .screenshot-slide img {
+        max-height: 400px;
+    }
+    
+    .screenshot-nav {
+        display: none;
+    }
+    
+    .store-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 250px;
+        gap: 12px;
+    }
+    
+    .store-button {
+        width: 100%;
+    }
+    
+    .download-section {
+        margin-bottom: 30px;
+    }
+    
+    .footer {
+        padding: 20px 15px;
+    }
+    
+    .footer-content {
+        width: 100%;
+    }
+}
+
+/* Планшеты (портретная ориентация) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .content {
+        padding: 50px 30px 30px;
+    }
+    
+    .game-title {
+        font-size: 70px;
+    }
+    
+    .game-subtitle {
+        font-size: 28px;
+    }
+    
+    .screenshots-section {
+        max-width: 600px;
+    }
+    
+    .screenshot-slide img {
+        max-height: 450px;
+    }
+    
+    .store-buttons {
+        gap: 20px;
+    }
+}
+
+/* Планшеты (ландшафтная) и малые десктопы */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .content {
+        padding: 60px 40px;
+    }
+    
+    .screenshots-section {
+        max-width: 700px;
+    }
+    
+    .screenshots-container {
+        aspect-ratio: 16/10;
+    }
+    
+    .screenshot-slide {
+        aspect-ratio: 16/10;
+    }
+}
+
+/* Десктопы */
+@media (min-width: 1025px) {
+    .content {
+        padding: 80px 50px 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .game-title {
+        font-size: 90px;
+    }
+    
+    .game-subtitle {
+        font-size: 32px;
+    }
+    
+    .screenshots-section {
+        max-width: 800px;
+    }
+    
+    .screenshots-container {
+        aspect-ratio: 16/9;
+    }
+    
+    .screenshot-slide {
+        aspect-ratio: 16/9;
+    }
+    
+    .screenshot-slide img {
+        max-height: 600px;
+    }
+    
+    .store-buttons {
+        gap: 25px;
+    }
+    
+}
+
+/* Очень широкие экраны */
+@media (min-width: 1440px) {
+    .game-title {
+        font-size: 100px;
+    }
+    
+    .game-subtitle {
+        font-size: 36px;
+    }
+    
+    .screenshots-section {
+        max-width: 900px;
+    }
+}
+
+/* Ландшафтная ориентация на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+    .content {
+        padding: 20px;
+        justify-content: space-between;
+    }
+    
+    .game-title {
+        font-size: 45px;
+        margin-top: 0;
+    }
+    
+    .game-subtitle {
+        font-size: 18px;
+    }
+    
+    .glowing-orb {
+        width: 30px;
+        height: 30px;
+        margin: 15px auto 20px;
+    }
+    
+    .screenshots-section {
+        max-height: 300px;
+    }
+    
+    .screenshot-slide img {
+        max-height: 250px;
+    }
+    
+    .store-buttons {
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .download-section {
+        margin-bottom: 10px;
+    }
+    
+    .footer {
+        padding: 15px;
+    }
+}
+
+/* Скрытие элементов на маленьких экранах */
+@media (max-width: 320px) {
+    .screenshot-dots {
+        bottom: 10px;
+    }
+    
+    .screenshot-dot {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .screenshot-dot.active {
+        width: 18px;
+    }
 }
