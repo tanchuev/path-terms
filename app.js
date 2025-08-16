@@ -274,7 +274,6 @@ class SimpleRouter {
                             <!-- Скрытые поля для Web3Forms -->
                             <input type="hidden" name="access_key" value="${WEB3FORMS_CONFIG.accessKey}">
                             <input type="hidden" name="subject" value="Path Game Feedback">
-                            <input type="hidden" name="from_name" value="">
                             
                             <div class="form-group">
                                 <label for="category">Category</label>
@@ -361,13 +360,6 @@ class SimpleRouter {
             if (element) {
                 element.addEventListener('input', () => {
                     this.saveFormData();
-                    // Обновляем скрытое поле from_name для Web3Forms
-                    if (id === 'name') {
-                        const hiddenFromName = document.querySelector('input[name="from_name"]');
-                        if (hiddenFromName) {
-                            hiddenFromName.value = element.value;
-                        }
-                    }
                     // Валидация email в реальном времени
                     if (id === 'email') {
                         this.validateEmailField(element);
@@ -414,11 +406,6 @@ class SimpleRouter {
                 // Восстанавливаем данные
                 if (formData.name) {
                     document.getElementById('name').value = formData.name;
-                    // Обновляем скрытое поле from_name
-                    const hiddenFromName = document.querySelector('input[name="from_name"]');
-                    if (hiddenFromName) {
-                        hiddenFromName.value = formData.name;
-                    }
                 }
                 if (formData.email) document.getElementById('email').value = formData.email;
                 if (formData.category) document.getElementById('category').value = formData.category;
@@ -598,7 +585,7 @@ async function sendWeb3Forms(data) {
     }
 }
 
-// Отправка через Fetch API
+// Отправка через Fetch API (согласно официальной документации Web3Forms)
 async function sendWeb3FormsFetch(data) {
     // Подготовка данных для Web3Forms
     const formData = new FormData();
@@ -606,49 +593,27 @@ async function sendWeb3FormsFetch(data) {
     // Обязательные поля Web3Forms
     formData.append('access_key', WEB3FORMS_CONFIG.accessKey);
     formData.append('subject', `Path Game Feedback - ${data.category}`);
-    formData.append('from_name', data.name);
+    formData.append('name', data.name); // Используем 'name' вместо 'from_name'
     formData.append('email', data.email);
     formData.append('message', data.message);
     
     // Дополнительные поля
     formData.append('category', data.category);
     
-    // Отправка запроса
+    // Отправка запроса (БЕЗ redirect: 'manual' - это было причиной 301 ошибки)
     const response = await fetch(WEB3FORMS_CONFIG.endpoint, {
         method: 'POST',
-        body: formData,
-        redirect: 'manual' // Не следовать редиректам автоматически
+        body: formData
     });
     
-    // Web3Forms возвращает 301 редирект при успешной отправке для AJAX запросов
-    if (response.status === 301 || response.status === 302) {
-        // Успешная отправка
+    // Читаем JSON ответ
+    const result = await response.json();
+    
+    if (result.success) {
         return { success: true, message: 'Email sent successfully' };
+    } else {
+        throw new Error(result.message || 'Failed to send email');
     }
-    
-    if (response.status === 200) {
-        // Попробуем прочитать JSON ответ
-        try {
-            return await response.json();
-        } catch (e) {
-            // Если не JSON, считаем успешным
-            return { success: true, message: 'Email sent successfully' };
-        }
-    }
-    
-    // Для других статусов - ошибка
-    if (!response.ok) {
-        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-        try {
-            const errorData = await response.json();
-            errorMessage = errorData.message || errorMessage;
-        } catch (e) {
-            // Если не можем прочитать JSON, используем стандартное сообщение
-        }
-        throw new Error(errorMessage);
-    }
-    
-    return { success: true, message: 'Email sent successfully' };
 }
 
 // Отправка через XMLHttpRequest (fallback)
@@ -660,7 +625,7 @@ function sendWeb3FormsXHR(data) {
         // Подготовка данных
         formData.append('access_key', WEB3FORMS_CONFIG.accessKey);
         formData.append('subject', `Path Game Feedback - ${data.category}`);
-        formData.append('from_name', data.name);
+        formData.append('name', data.name); // Используем 'name' вместо 'from_name'
         formData.append('email', data.email);
         formData.append('message', data.message);
         formData.append('category', data.category);
@@ -668,9 +633,17 @@ function sendWeb3FormsXHR(data) {
         xhr.open('POST', WEB3FORMS_CONFIG.endpoint);
         
         xhr.onload = function() {
-            // Web3Forms возвращает 301 для успешной отправки
-            if (xhr.status === 301 || xhr.status === 302 || xhr.status === 200) {
-                resolve({ success: true, message: 'Email sent successfully' });
+            if (xhr.status === 200) {
+                try {
+                    const result = JSON.parse(xhr.responseText);
+                    if (result.success) {
+                        resolve({ success: true, message: 'Email sent successfully' });
+                    } else {
+                        reject(new Error(result.message || 'Failed to send email'));
+                    }
+                } catch (e) {
+                    reject(new Error('Invalid response format'));
+                }
             } else {
                 reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
             }
