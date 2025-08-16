@@ -232,11 +232,11 @@ class SimpleRouter {
                 </div>
                 
                 <div class="content page-content">
-                    <header class="page-header">
+                    <header class="page-header privacy-header">
                         <button class="back-button" onclick="router.navigate('/')">
-                            ← Back
+                            <span class="back-arrow">←</span>
+                            <span class="back-text">Back</span>
                         </button>
-                        <h1>Privacy Policy</h1>
                     </header>
                     
                     <div class="page-body">
@@ -271,11 +271,12 @@ class SimpleRouter {
                 </div>
                 
                 <div class="content page-content">
-                    <header class="page-header">
+                    <header class="page-header feedback-header">
                         <button class="back-button" onclick="router.navigate('/')">
-                            ← Back
+                            <span class="back-arrow">←</span>
+                            <span class="back-text">Back</span>
                         </button>
-                        <h1>Feedback & Support</h1>
+                        <h1>Feedback&nbsp;&amp;&nbsp;Support</h1>
                     </header>
                     
                     <div class="page-body">
