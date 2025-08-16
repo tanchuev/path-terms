@@ -131,61 +131,58 @@ body {
 .store-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
     align-items: center;
     position: relative;
     z-index: 1;
+    margin: 20px 0;
 }
 
 .store-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    height: 50px;
-    min-width: 140px;
     position: relative;
     background: transparent;
     border: none;
     padding: 0;
+    overflow: visible;
 }
 
 .store-button:hover {
-    transform: translateY(-2px) scale(1.03);
-    opacity: 0.85;
+    transform: translateY(-3px) scale(1.05);
+    filter: brightness(1.1);
+}
+
+.store-button:active {
+    transform: translateY(-1px) scale(1.02);
 }
 
 .store-button img {
-    height: 100%;
+    display: block;
+    height: 45px;
     width: auto;
-    object-fit: contain;
 }
 
-.store-button.app-store {
+/* App Store кнопка */
+.store-button.app-store img {
     height: 45px;
+    width: auto;
 }
 
-.store-button.google-play {
-    height: 45px;
-    min-width: 150px;
-}
-
+/* Google Play кнопка */
 .store-button.google-play img {
-    height: 65px;
-    margin: -10px 0;
-}
-
-.store-button.rustore {
     height: 45px;
-    min-width: 140px;
-    display: flex;
-    align-items: center;
+    width: auto;
 }
 
+/* RuStore кнопка */
 .store-button.rustore img {
     height: 45px;
+    width: auto;
 }
 
 /* Шарик под подзаголовком */
@@ -623,47 +620,30 @@ body {
     }
     
     .store-buttons {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         width: 100%;
-        max-width: 280px;
-        padding: 0px;
+        max-width: 200px;
+        margin: 15px auto;
+        padding: 0;
+        align-items: stretch;
     }
     
     .store-button {
-        width: auto;
-        height: 40px;
-        min-width: unset;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        min-height: 50px;
     }
     
-    .store-button.app-store {
-        height: 40px;
-    }
-    
-    .store-button.app-store img {
-        height: 40px;
-    }
-    
-    .store-button.google-play {
-        height: 40px;
-        min-width: unset;
-    }
-    
-    .store-button.google-play img {
-        height: 58px;
-        margin: -9px 0;
-    }
-    
-    .store-button.rustore {
-        grid-column: 1 / -1;
-        justify-self: center;
-        height: 40px;
-        max-width: 135px;
-    }
-    
-    .store-button.rustore img {
-        height: 40px;
+    .store-button img {
+        width: 100%;
+        height: auto;
+        max-height: 50px;
+        object-fit: contain;
     }
     
     .download-section {
@@ -708,7 +688,27 @@ body {
     }
     
     .store-buttons {
-        gap: 20px;
+        gap: 18px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    
+    .store-button img {
+        height: 45px;
+    }
+    
+    .store-button.app-store img {
+        height: 45px;
+    }
+    
+    .store-button.google-play img {
+        height: 45px;
+    }
+    
+    .store-button.rustore img {
+        height: 45px;
     }
 }
 
@@ -773,6 +773,25 @@ body {
     
     .store-buttons {
         gap: 25px;
+        flex-direction: row;
+        max-width: 600px;
+        margin: 25px auto;
+    }
+    
+    .store-button img {
+        height: 45px;
+    }
+    
+    .store-button.app-store img {
+        height: 45px;
+    }
+    
+    .store-button.google-play img {
+        height: 45px;
+    }
+    
+    .store-button.rustore img {
+        height: 45px;
     }
     
 }
@@ -835,8 +854,26 @@ body {
     }
     
     .store-buttons {
-        flex-direction: row;
+        flex-direction: column;
         gap: 10px;
+        align-items: center;
+        margin: 10px auto;
+    }
+    
+    .store-buttons {
+        max-width: 180px;
+    }
+    
+    .store-button {
+        width: 100%;
+        min-height: 45px;
+    }
+    
+    .store-button img {
+        width: 100%;
+        height: auto;
+        max-height: 45px;
+        object-fit: contain;
     }
     
     .download-section {

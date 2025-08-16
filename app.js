@@ -70,14 +70,14 @@ class SimpleRouter {
                     
                     <section class="download-section">
                         <div class="store-buttons">
-                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store">
-                                <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
+                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store" aria-label="Download on the App Store">
+                                <img src="assets/badges/app-store-badge-en.svg" alt="Download on the App Store">
                             </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play">
-                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play" aria-label="Get it on Google Play">
+                                <img src="assets/badges/google-play-badge.svg" alt="Get it on Google Play">
                             </a>
-                            <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore">
-                                <img src="https://www.rustore.ru/help/icons/logo-color-dark.png" alt="Доступно в RuStore">
+                            <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore" aria-label="Доступно в RuStore">
+                                <img src="assets/badges/rustore-badge.svg" alt="Доступно в RuStore">
                             </a>
                         </div>
                     </section>
