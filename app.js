@@ -44,7 +44,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="landing-page">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.png" alt="Background" class="background-image">
+                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content">
@@ -70,6 +70,8 @@ class SimpleRouter {
                             </a>
                         </div>
                         
+                        <div class="glowing-orb"></div>
+                        
                         <div class="footer-links">
                             <button class="footer-link" onclick="router.navigate('/feedback')">
                                 Обратная связь
@@ -89,7 +91,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.png" alt="Background" class="background-image">
+                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content page-content">
@@ -116,7 +118,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.png" alt="Background" class="background-image">
+                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content page-content">

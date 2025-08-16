@@ -59,7 +59,7 @@ body {
 }
 
 /* Поворот фона для мобильной ориентации */
-@media (max-width: 768px) and (orientation: portrait) {
+@media (orientation: portrait) {
     .background-container {
         width: 100vw;
         height: 100vh;
@@ -69,14 +69,10 @@ body {
     }
 
     .background-image {
-        width: 100vh;
-        height: 100vw;
-        transform: rotate(90deg) translateY(-100vh);
-        transform-origin: top left;
-        position: absolute;
-        top: 100%;
-        left: 0;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        object-position: center;
     }
 }
 
@@ -92,8 +88,8 @@ body {
 
 .header {
     text-align: center;
-    padding: 40px 20px;
-    margin-top: 20px;
+    padding: 80px 20px 40px 20px;
+    margin-top: 0;
 }
 
 .game-title {
@@ -128,7 +124,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
 }
 
 .store-buttons {
@@ -137,6 +132,8 @@ body {
     gap: 15px;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .store-button {
@@ -145,7 +142,7 @@ body {
     justify-content: center;
     transition: transform 0.3s ease, opacity 0.3s ease;
     text-decoration: none;
-    height: 60px;
+    height: 80px;
     min-width: 180px;
     position: relative;
 }
@@ -156,23 +153,9 @@ body {
 }
 
 .store-button img {
-    height: 100%;
+    height: 50px;
     width: auto;
     object-fit: contain;
-}
-
-/* Специальная корректировка для App Store badge */
-.store-button.app-store {
-    padding: 10px 0;
-}
-
-.store-button.app-store img {
-    height: 40px;
-}
-
-/* Google Play badge */
-.store-button.google-play img {
-    height: 60px;
 }
 
 /* RuStore badge без фона */
@@ -183,7 +166,54 @@ body {
 }
 
 .store-button.rustore img {
-    height: 60px;
+    height: 50px;
+}
+
+/* Светящийся шарик между кнопками и текстом */
+.glowing-orb {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #ffffff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow:
+        0 0 60px rgba(255, 255, 255, 0.8),
+        0 0 100px rgba(255, 255, 255, 0.6),
+        0 0 150px rgba(255, 255, 255, 0.4),
+        0 0 200px rgba(255, 255, 255, 0.2);
+    animation: glow 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow:
+            0 0 60px rgba(255, 255, 255, 0.8),
+            0 0 100px rgba(255, 255, 255, 0.6),
+            0 0 150px rgba(255, 255, 255, 0.4),
+            0 0 200px rgba(255, 255, 255, 0.2);
+    }
+
+    50% {
+        box-shadow:
+            0 0 80px rgba(255, 255, 255, 1),
+            0 0 120px rgba(255, 255, 255, 0.8),
+            0 0 180px rgba(255, 255, 255, 0.6),
+            0 0 240px rgba(255, 255, 255, 0.4);
+    }
+
+    100% {
+        box-shadow:
+            0 0 60px rgba(255, 255, 255, 0.8),
+            0 0 100px rgba(255, 255, 255, 0.6),
+            0 0 150px rgba(255, 255, 255, 0.4),
+            0 0 200px rgba(255, 255, 255, 0.2);
+    }
 }
 
 .footer-links {
@@ -222,8 +252,12 @@ body {
         padding: 30px 20px;
     }
 
+    .store-button {
+        height: 50px;
+    }
+
     .store-button img {
-        height: 45px;
+        height: 50px;
     }
 }
 
@@ -234,8 +268,8 @@ body {
     }
 
     .header {
-        padding: 20px 15px;
-        margin-top: 10px;
+        padding: 60px 15px 20px 15px;
+        margin-top: 0;
     }
 
     .game-title {
@@ -254,20 +288,17 @@ body {
 
     .store-button {
         width: 100%;
-        height: 50px;
+        height: 45px;
         max-width: 250px;
     }
 
-    .store-button.app-store img {
-        height: 35px;
+    .store-button img {
+        height: 45px;
     }
 
-    .store-button.google-play img {
-        height: 50px;
-    }
-
-    .store-button.rustore img {
-        height: 50px;
+    .glowing-orb {
+        width: 70px;
+        height: 70px;
     }
 
     .footer-links {
@@ -290,6 +321,10 @@ body {
 
     .game-subtitle {
         font-size: 20px;
+    }
+
+    .store-button {
+        height: 40px;
     }
 
     .store-button img {
