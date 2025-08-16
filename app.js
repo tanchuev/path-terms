@@ -232,13 +232,6 @@ class SimpleRouter {
                 </div>
                 
                 <div class="content page-content">
-                    <header class="page-header privacy-header">
-                        <button class="back-button" onclick="router.navigate('/')">
-                            <span class="back-arrow">←</span>
-                            <span class="back-text">Back</span>
-                        </button>
-                    </header>
-                    
                     <div class="page-body">
                         <div class="privacy-content">
                             <div class="loading">Loading...</div>
@@ -272,10 +265,6 @@ class SimpleRouter {
                 
                 <div class="content page-content">
                     <header class="page-header feedback-header">
-                        <button class="back-button" onclick="router.navigate('/')">
-                            <span class="back-arrow">←</span>
-                            <span class="back-text">Back</span>
-                        </button>
                         <h1>Feedback&nbsp;&amp;&nbsp;Support</h1>
                     </header>
                     
