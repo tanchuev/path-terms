@@ -208,8 +208,9 @@ class SimpleRouter {
         });
     }
     
-    renderPrivacy() {
+    async renderPrivacy() {
         const app = document.getElementById('app');
+        
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
@@ -226,13 +227,24 @@ class SimpleRouter {
                     
                     <div class="page-body">
                         <div class="privacy-content">
-                            <p>Privacy policy content will be here.</p>
-                            <p>Last updated: ${new Date().toLocaleDateString('en-US')}</p>
+                            <div class="loading">Loading...</div>
                         </div>
                     </div>
                 </div>
             </div>
         `;
+        
+        try {
+            const markdownContent = await this.loadMarkdownFile('privacy_policy.md');
+            const htmlContent = this.parseMarkdown(markdownContent);
+            
+            const privacyContentDiv = document.querySelector('.privacy-content');
+            privacyContentDiv.innerHTML = htmlContent;
+        } catch (error) {
+            console.error('Error loading privacy policy:', error);
+            const privacyContentDiv = document.querySelector('.privacy-content');
+            privacyContentDiv.innerHTML = '<p>Error loading privacy policy. Please try again later.</p>';
+        }
     }
     
     renderFeedback() {
@@ -276,6 +288,79 @@ class SimpleRouter {
                 </div>
             </div>
         `;
+    }
+    
+    // Загрузка markdown файла
+    async loadMarkdownFile(filename) {
+        const response = await fetch(filename);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${filename}: ${response.status}`);
+        }
+        return await response.text();
+    }
+    
+    // Простой парсер markdown
+    parseMarkdown(markdown) {
+        let html = markdown;
+        
+        // Заголовки
+        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+        
+        // Жирный текст
+        html = html.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+        
+        // Ссылки
+        html = html.replace(/\[([^\]]*)\]\(([^\)]*)\)/gim, '<a href="$2" target="_blank">$1</a>');
+        
+        // Разделение на параграфы
+        const paragraphs = html.split('\n\n').filter(p => p.trim().length > 0);
+        
+        let result = '';
+        for (let paragraph of paragraphs) {
+            paragraph = paragraph.trim();
+            
+            // Проверяем, если это заголовок
+            if (paragraph.startsWith('<h')) {
+                result += paragraph + '\n';
+            }
+            // Проверяем, если это список
+            else if (paragraph.includes('\n- ')) {
+                const listItems = paragraph.split('\n').filter(line => line.trim().startsWith('- '));
+                const nonListLines = paragraph.split('\n').filter(line => !line.trim().startsWith('- ') && line.trim().length > 0);
+                
+                // Добавляем строки перед списком
+                for (let line of nonListLines) {
+                    if (line.trim().length > 0) {
+                        result += `<p>${line.trim()}</p>\n`;
+                    }
+                }
+                
+                // Добавляем список
+                if (listItems.length > 0) {
+                    result += '<ul>\n';
+                    for (let item of listItems) {
+                        const itemText = item.replace('- ', '').trim();
+                        result += `<li>${itemText}</li>\n`;
+                    }
+                    result += '</ul>\n';
+                }
+            }
+            // Обычный параграф
+            else {
+                const lines = paragraph.split('\n').filter(line => line.trim().length > 0);
+                for (let line of lines) {
+                    if (!line.startsWith('<h') && line.trim().length > 0) {
+                        result += `<p>${line.trim()}</p>\n`;
+                    } else if (line.startsWith('<h')) {
+                        result += line + '\n';
+                    }
+                }
+            }
+        }
+        
+        return result;
     }
 }
 

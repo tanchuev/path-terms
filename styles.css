@@ -508,10 +508,64 @@ body {
 .privacy-content {
     color: #ffffff;
     line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.privacy-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.privacy-content h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.privacy-content h3 {
+    font-size: 1.3em;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #ffffff;
 }
 
 .privacy-content p {
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.privacy-content ul {
     margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.privacy-content li {
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.privacy-content a {
+    color: #4fc3f7;
+    text-decoration: underline;
+}
+
+.privacy-content a:hover {
+    color: #29b6f6;
+}
+
+.privacy-content strong {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
 }
 
 /* Стили для формы обратной связи */
