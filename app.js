@@ -68,6 +68,20 @@ class SimpleRouter {
                         <div class="glowing-orb"></div>
                     </header>
                     
+                    <section class="download-section">
+                        <div class="store-buttons">
+                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store">
+                                <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play">
+                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                            </a>
+                            <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore">
+                                <img src="https://www.rustore.ru/help/icons/logo-color-dark.png" alt="Доступно в RuStore">
+                            </a>
+                        </div>
+                    </section>
+                    
                     <section class="screenshots-section">
                         <div class="screenshots-container">
                             <div class="screenshots-track" id="screenshotsTrack">
@@ -84,20 +98,6 @@ class SimpleRouter {
                             </div>
                             <button class="screenshot-nav screenshot-prev" onclick="router.prevSlide()">‹</button>
                             <button class="screenshot-nav screenshot-next" onclick="router.nextSlide()">›</button>
-                        </div>
-                    </section>
-                    
-                    <section class="download-section">
-                        <div class="store-buttons">
-                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store">
-                                <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
-                            </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play">
-                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
-                            </a>
-                            <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore">
-                                <img src="https://www.rustore.ru/help/icons/logo-color-dark.png" alt="Доступно в RuStore">
-                            </a>
                         </div>
                     </section>
                     

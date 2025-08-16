@@ -144,8 +144,8 @@ body {
     justify-content: center;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    height: 55px;
-    min-width: 155px;
+    height: 50px;
+    min-width: 140px;
     position: relative;
     background: transparent;
     border: none;
@@ -164,28 +164,28 @@ body {
 }
 
 .store-button.app-store {
-    height: 50px;
+    height: 45px;
 }
 
 .store-button.google-play {
-    height: 50px;
-    min-width: 170px;
+    height: 45px;
+    min-width: 150px;
 }
 
 .store-button.google-play img {
-    height: 75px;
-    margin: -12px 0;
+    height: 65px;
+    margin: -10px 0;
 }
 
 .store-button.rustore {
-    height: 50px;
-    min-width: 155px;
+    height: 45px;
+    min-width: 140px;
     display: flex;
     align-items: center;
 }
 
 .store-button.rustore img {
-    height: 50px;
+    height: 45px;
 }
 
 /* Шарик под подзаголовком */
@@ -231,12 +231,14 @@ body {
     }
 }
 
-/* Галерея скриншотов - скрыта */
+/* Галерея скриншотов */
 .screenshots-section {
-    display: none;
+    display: block;
     width: 100%;
-    max-width: 900px;
+    max-width: 500px;
     animation: fadeInUp 0.8s ease 0.4s both;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
 .screenshots-container {
@@ -244,10 +246,11 @@ body {
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 9/16;
 }
 
 .screenshots-track {
@@ -262,7 +265,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.5;
+    opacity: 1;
     transition: opacity 0.5s ease;
 }
 
@@ -271,10 +274,9 @@ body {
 }
 
 .screenshot-slide img {
-    width: auto;
+    width: 100%;
     height: 100%;
-    max-height: 500px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 15px;
 }
 
@@ -312,14 +314,14 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,16 +331,17 @@ body {
 }
 
 .screenshot-prev {
-    left: 15px;
+    left: 10px;
 }
 
 .screenshot-next {
-    right: 15px;
+    right: 10px;
 }
 
 .screenshot-nav:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-50%) scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-50%) scale(1.05);
+    color: rgba(255, 255, 255, 1);
 }
 
 /* Анимации появления */
@@ -599,16 +602,20 @@ body {
     }
     
     .screenshots-section {
-        margin: 0 -15px;
-        width: calc(100% + 30px);
+        max-width: 100%;
+        margin: 15px auto;
+        padding: 20px 15px;
     }
     
     .screenshots-container {
-        border-radius: 0;
+        border-radius: 15px;
+        aspect-ratio: 9/16;
     }
     
     .screenshot-slide img {
-        max-height: 400px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     
     .screenshot-nav {
@@ -616,24 +623,58 @@ body {
     }
     
     .store-buttons {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
         width: 100%;
-        max-width: 250px;
-        gap: 12px;
+        max-width: 280px;
+        padding: 0px;
     }
     
     .store-button {
-        width: 100%;
+        width: auto;
+        height: 40px;
+        min-width: unset;
+    }
+    
+    .store-button.app-store {
+        height: 40px;
+    }
+    
+    .store-button.app-store img {
+        height: 40px;
+    }
+    
+    .store-button.google-play {
+        height: 40px;
+        min-width: unset;
+    }
+    
+    .store-button.google-play img {
+        height: 58px;
+        margin: -9px 0;
+    }
+    
+    .store-button.rustore {
+        grid-column: 1 / -1;
+        justify-self: center;
+        height: 40px;
+        max-width: 135px;
+    }
+    
+    .store-button.rustore img {
+        height: 40px;
     }
     
     .download-section {
         display: flex;
         align-items: center;
-        padding: 10px 0;
+        padding: 8px 0;
+        justify-content: center;
     }
     
     .footer {
-        padding: 15px 15px 30px;
+        padding: 30px 15px 0px;
     }
     
     .footer-content {
@@ -657,11 +698,13 @@ body {
     }
     
     .screenshots-section {
-        max-width: 600px;
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
     }
     
-    .screenshot-slide img {
-        max-height: 450px;
+    .screenshots-container {
+        aspect-ratio: 9/16;
     }
     
     .store-buttons {
@@ -677,15 +720,17 @@ body {
     }
     
     .screenshots-section {
-        max-width: 700px;
+        max-width: 450px;
+        margin: 25px auto;
+        padding: 25px;
     }
     
     .screenshots-container {
-        aspect-ratio: 16/10;
+        aspect-ratio: 9/16;
     }
     
     .screenshot-slide {
-        aspect-ratio: 16/10;
+        aspect-ratio: 9/16;
     }
 }
 
@@ -707,19 +752,23 @@ body {
     }
     
     .screenshots-section {
-        max-width: 800px;
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 30px;
     }
     
     .screenshots-container {
-        aspect-ratio: 16/9;
+        aspect-ratio: 9/16;
     }
     
     .screenshot-slide {
-        aspect-ratio: 16/9;
+        aspect-ratio: 9/16;
     }
     
     .screenshot-slide img {
-        max-height: 600px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     
     .store-buttons {
@@ -739,7 +788,7 @@ body {
     }
     
     .screenshots-section {
-        max-width: 900px;
+        max-width: 550px;
     }
 }
 
@@ -766,11 +815,23 @@ body {
     }
     
     .screenshots-section {
-        max-height: 300px;
+        max-width: 300px;
+        margin: 10px auto;
+        padding: 0 10px;
+    }
+    
+    .screenshots-container {
+        aspect-ratio: 16/9;
+    }
+    
+    .screenshot-slide {
+        aspect-ratio: 16/9;
     }
     
     .screenshot-slide img {
-        max-height: 250px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     
     .store-buttons {
