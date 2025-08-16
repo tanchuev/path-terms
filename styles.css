@@ -58,23 +58,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Поворот фона для мобильной ориентации */
-@media (orientation: portrait) {
-    .background-container {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
-
-    .background-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-}
 
 .content {
     position: relative;
@@ -82,14 +65,19 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
     min-height: 100vh;
 }
 
 .header {
     text-align: center;
-    padding: 80px 20px 40px 20px;
-    margin-top: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .game-title {
@@ -113,10 +101,7 @@ body {
 }
 
 .main-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: none;
 }
 
 .footer {
@@ -129,7 +114,7 @@ body {
 .store-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 0px;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -169,18 +154,23 @@ body {
     height: 50px;
 }
 
-/* Светящийся шарик между кнопками и текстом */
+/* Google Play кнопка с увеличенной высотой */
+.store-button.google {
+    height: 120px;
+}
+
+.store-button.google img {
+    height: 70px;
+}
+
+/* Шарик под подзаголовком */
 .glowing-orb {
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background: #ffffff;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 30px auto 40px auto;
     opacity: 1;
-    z-index: 9999;
     pointer-events: none;
     box-shadow:
         0 0 60px rgba(255, 255, 255, 0.8),
@@ -216,6 +206,7 @@ body {
     }
 }
 
+
 .footer-links {
     display: flex;
     gap: 20px;
@@ -246,91 +237,23 @@ body {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Адаптивность для планшетов */
-@media (max-width: 1024px) {
-    .header {
-        padding: 30px 20px;
-    }
-
-    .store-button {
-        height: 50px;
-    }
-
-    .store-button img {
-        height: 50px;
-    }
+.privacy-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    font-family: 'MADE Likes Slab', sans-serif;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-    .content {
-        padding: 15px;
-    }
-
-    .header {
-        padding: 60px 15px 20px 15px;
-        margin-top: 0;
-    }
-
-    .game-title {
-        font-size: clamp(50px, 12vw, 80px);
-    }
-
-    .game-subtitle {
-        font-size: clamp(20px, 5vw, 32px);
-    }
-
-    .store-buttons {
-        flex-direction: column;
-        width: 100%;
-        max-width: 250px;
-    }
-
-    .store-button {
-        width: 100%;
-        height: 45px;
-        max-width: 250px;
-    }
-
-    .store-button img {
-        height: 45px;
-    }
-
-    .glowing-orb {
-        width: 70px;
-        height: 70px;
-    }
-
-    .footer-links {
-        flex-direction: column;
-        width: 100%;
-        max-width: 250px;
-    }
-
-    .footer-link {
-        width: 100%;
-        text-align: center;
-    }
+.privacy-text:hover {
+    color: rgba(255, 255, 255, 0.7);
 }
 
-/* Адаптивность для очень маленьких экранов */
-@media (max-width: 480px) {
-    .game-title {
-        font-size: 50px;
-    }
 
-    .game-subtitle {
-        font-size: 20px;
-    }
 
-    .store-button {
-        height: 40px;
-    }
-
-    .store-button img {
-        height: 40px;
-    }
-}
 
 /* Скрытие страниц при роутинге */
 .page {
@@ -472,20 +395,4 @@ body {
 .submit-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-    .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .page-body {
-        padding: 20px 15px;
-    }
-
-    .submit-button {
-        width: 100%;
-    }
 }
