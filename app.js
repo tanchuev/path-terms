@@ -257,6 +257,7 @@ class SimpleRouter {
     
     renderFeedback() {
         const app = document.getElementById('app');
+        
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
@@ -270,29 +271,187 @@ class SimpleRouter {
                     
                     <div class="page-body">
                         <form class="feedback-form" onsubmit="handleFeedbackSubmit(event)">
+                            <!-- Скрытые поля для Web3Forms -->
+                            <input type="hidden" name="access_key" value="${WEB3FORMS_CONFIG.accessKey}">
+                            <input type="hidden" name="subject" value="Path Game Feedback">
+                            <input type="hidden" name="from_name" value="">
+                            <input type="hidden" name="redirect" value="${window.location.href}">
+                            
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Select category</option>
+                                    <option value="bug">🐛 Bug Report</option>
+                                    <option value="feature">💡 Feature Request</option>
+                                    <option value="general">💬 General Feedback</option>
+                                    <option value="support">🔧 Support</option>
+                                </select>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="name">Your Name</label>
-                                <input type="text" id="name" name="name" required>
+                                <input type="text" id="name" name="name" maxlength="50" required>
                             </div>
                             
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" maxlength="100" required>
                             </div>
                             
                             <div class="form-group">
                                 <label for="message">Message</label>
-                                <textarea id="message" name="message" rows="5" required></textarea>
+                                <textarea id="message" name="message" rows="5" minlength="10" maxlength="2000" required placeholder="Please describe your feedback in detail..."></textarea>
+                                <div class="char-counter">
+                                    <span id="charCount">0</span>/2000
+                                </div>
                             </div>
                             
-                            <button type="submit" class="submit-button">
-                                Send
+                            <button type="submit" class="submit-button" id="submitButton">
+                                <span class="button-text">Send Message</span>
+                                <span class="button-loader" style="display: none;">
+                                    <div class="spinner"></div>
+                                    Sending...
+                                </span>
                             </button>
                         </form>
+                        
+                        <!-- Toast container -->
+                        <div class="toast-container" id="toastContainer"></div>
                     </div>
                 </div>
             </div>
         `;
+        
+        // Инициализация счетчика символов
+        this.initCharCounter();
+        
+        // Восстановление сохраненных данных
+        this.restoreFormData();
+    }
+    
+    // Инициализация счетчика символов
+    initCharCounter() {
+        const messageTextarea = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        
+        if (messageTextarea && charCount) {
+            messageTextarea.addEventListener('input', () => {
+                const currentLength = messageTextarea.value.length;
+                charCount.textContent = currentLength;
+                
+                if (currentLength > 900) {
+                    charCount.style.color = '#ff6b6b';
+                } else if (currentLength > 750) {
+                    charCount.style.color = '#ffa726';
+                } else {
+                    charCount.style.color = '#rgba(255, 255, 255, 0.7)';
+                }
+                
+                // Автосохранение в localStorage
+                this.saveFormData();
+            });
+            
+            // Обновляем счетчик при инициализации
+            charCount.textContent = messageTextarea.value.length;
+        }
+        
+        // Автосохранение для других полей
+        const inputs = ['name', 'email', 'category'];
+        inputs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', () => {
+                    this.saveFormData();
+                    // Обновляем скрытое поле from_name для Web3Forms
+                    if (id === 'name') {
+                        const hiddenFromName = document.querySelector('input[name="from_name"]');
+                        if (hiddenFromName) {
+                            hiddenFromName.value = element.value;
+                        }
+                    }
+                    // Валидация email в реальном времени
+                    if (id === 'email') {
+                        this.validateEmailField(element);
+                    }
+                });
+                
+                // Валидация при потере фокуса
+                if (id === 'email') {
+                    element.addEventListener('blur', () => {
+                        this.validateEmailField(element);
+                    });
+                }
+            }
+        });
+    }
+    
+    // Сохранение данных формы в localStorage
+    saveFormData() {
+        const formData = {
+            name: document.getElementById('name')?.value || '',
+            email: document.getElementById('email')?.value || '',
+            category: document.getElementById('category')?.value || '',
+            message: document.getElementById('message')?.value || '',
+            timestamp: Date.now()
+        };
+        
+        localStorage.setItem('feedbackFormData', JSON.stringify(formData));
+    }
+    
+    // Восстановление данных формы из localStorage
+    restoreFormData() {
+        try {
+            const savedData = localStorage.getItem('feedbackFormData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                
+                // Проверяем, что данные не старше 24 часов
+                const maxAge = 24 * 60 * 60 * 1000; // 24 часа
+                if (Date.now() - formData.timestamp > maxAge) {
+                    localStorage.removeItem('feedbackFormData');
+                    return;
+                }
+                
+                // Восстанавливаем данные
+                if (formData.name) {
+                    document.getElementById('name').value = formData.name;
+                    // Обновляем скрытое поле from_name
+                    const hiddenFromName = document.querySelector('input[name="from_name"]');
+                    if (hiddenFromName) {
+                        hiddenFromName.value = formData.name;
+                    }
+                }
+                if (formData.email) document.getElementById('email').value = formData.email;
+                if (formData.category) document.getElementById('category').value = formData.category;
+                if (formData.message) {
+                    document.getElementById('message').value = formData.message;
+                    document.getElementById('charCount').textContent = formData.message.length;
+                }
+            }
+        } catch (error) {
+            console.error('Error restoring form data:', error);
+            localStorage.removeItem('feedbackFormData');
+        }
+    }
+    
+    // Валидация поля email с визуальной обратной связью
+    validateEmailField(emailElement) {
+        const email = emailElement.value.trim();
+        
+        // Убираем предыдущие классы валидации
+        emailElement.classList.remove('email-valid', 'email-invalid');
+        
+        // Если поле пустое, не показываем ошибку
+        if (email.length === 0) {
+            return;
+        }
+        
+        // Проверяем валидность
+        if (isValidEmail(email)) {
+            emailElement.classList.add('email-valid');
+        } else {
+            emailElement.classList.add('email-invalid');
+        }
     }
     
     // Загрузка markdown файла
@@ -369,21 +528,259 @@ class SimpleRouter {
     }
 }
 
+// Конфигурация Web3Forms
+const WEB3FORMS_CONFIG = {
+    accessKey: 'eb75d3c9-6a71-42c7-a111-14515b05661b',
+    endpoint: 'https://api.web3forms.com/submit'
+};
+
 // Обработчик отправки формы обратной связи
-function handleFeedbackSubmit(event) {
+async function handleFeedbackSubmit(event) {
     event.preventDefault();
     
-    const formData = new FormData(event.target);
+    const form = event.target;
+    const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
-    // Здесь можно добавить отправку данных на сервер
-    console.log('Данные формы:', data);
+    // Проверка rate limiting
+    if (!checkRateLimit()) {
+        showToast('Please wait before sending another message. You can send one message every 5 minutes.', 'warning');
+        return;
+    }
     
-    // Показать уведомление об успешной отправке
-    alert('Thank you for your message! We will contact you soon.');
     
-    // Очистить форму
-    event.target.reset();
+    // Проверка валидности email
+    if (!isValidEmail(data.email)) {
+        showToast('Please enter a valid email address.', 'error');
+        return;
+    }
+    
+    // Проверка на подозрительный контент
+    if (isSpamContent(data.message)) {
+        showToast('Your message was flagged as spam. Please revise your content.', 'error');
+        return;
+    }
+    
+    // Показать состояние загрузки
+    setSubmitButtonLoading(true);
+    
+    try {
+        // Отправка через Web3Forms
+        await sendWeb3Forms(data);
+        
+        // Успешная отправка
+        showToast('Thank you for your message! We will contact you soon.', 'success');
+        
+        // Очистить форму и localStorage
+        form.reset();
+        localStorage.removeItem('feedbackFormData');
+        document.getElementById('charCount').textContent = '0';
+        
+        // Установить rate limit
+        setRateLimit();
+        
+    } catch (error) {
+        console.error('Error sending feedback:', error);
+        showToast('Failed to send message. Please try again or contact us directly at path.game@yandex.com', 'error');
+    } finally {
+        setSubmitButtonLoading(false);
+    }
+}
+
+// Отправка email через Web3Forms
+async function sendWeb3Forms(data) {
+    // Подготовка данных для Web3Forms
+    const formData = new FormData();
+    
+    // Обязательные поля Web3Forms
+    formData.append('access_key', WEB3FORMS_CONFIG.accessKey);
+    formData.append('subject', `Path Game Feedback - ${data.category}`);
+    formData.append('from_name', data.name);
+    formData.append('email', data.email);
+    formData.append('message', data.message);
+    
+    // Дополнительные поля
+    formData.append('category', data.category);
+    formData.append('redirect', window.location.href); // Redirect обратно на страницу
+    
+    // Отправка запроса
+    const response = await fetch(WEB3FORMS_CONFIG.endpoint, {
+        method: 'POST',
+        body: formData
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return response.json();
+}
+
+// Проверка rate limiting (1 сообщение в 5 минут)
+function checkRateLimit() {
+    const lastSubmit = localStorage.getItem('lastFeedbackSubmit');
+    if (!lastSubmit) return true;
+    
+    const timeDiff = Date.now() - parseInt(lastSubmit);
+    const rateLimit = 5 * 60 * 1000; // 5 минут
+    
+    return timeDiff >= rateLimit;
+}
+
+// Установка rate limit
+function setRateLimit() {
+    localStorage.setItem('lastFeedbackSubmit', Date.now().toString());
+}
+
+// Валидация email
+function isValidEmail(email) {
+    // Базовая проверка на пустоту
+    if (!email || email.trim().length === 0) {
+        return false;
+    }
+    
+    // Удаляем лишние пробелы
+    email = email.trim();
+    
+    // Проверка длины
+    if (email.length < 5 || email.length > 254) {
+        return false;
+    }
+    
+    // Регулярное выражение для валидации email (RFC 5322 compliant)
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    
+    if (!emailRegex.test(email)) {
+        return false;
+    }
+    
+    // Проверка структуры (должна быть одна @)
+    const atSymbolCount = (email.match(/@/g) || []).length;
+    if (atSymbolCount !== 1) {
+        return false;
+    }
+    
+    // Разделяем на локальную часть и домен
+    const [localPart, domain] = email.split('@');
+    
+    // Проверка локальной части
+    if (localPart.length === 0 || localPart.length > 64) {
+        return false;
+    }
+    
+    // Проверка домена
+    if (domain.length === 0 || domain.length > 253) {
+        return false;
+    }
+    
+    // Домен не должен начинаться или заканчиваться точкой или дефисом
+    if (domain.startsWith('.') || domain.endsWith('.') || 
+        domain.startsWith('-') || domain.endsWith('-')) {
+        return false;
+    }
+    
+    // Проверка наличия точки в домене (должен быть как минимум один поддомен)
+    if (!domain.includes('.')) {
+        return false;
+    }
+    
+    // Проверка на двойные точки
+    if (domain.includes('..') || localPart.includes('..')) {
+        return false;
+    }
+    
+    // Дополнительные проверки на подозрительные домены
+    const suspiciousDomains = [
+        'test.com', 'example.com', 'temp-mail.org', '10minutemail.com',
+        'guerrillamail.com', 'mailinator.com', 'throwaway.email'
+    ];
+    
+    const lowerDomain = domain.toLowerCase();
+    if (suspiciousDomains.some(suspicious => lowerDomain.includes(suspicious))) {
+        return false;
+    }
+    
+    // Проверка TLD (должен быть как минимум 2 символа)
+    const tld = domain.split('.').pop();
+    if (tld.length < 2) {
+        return false;
+    }
+    
+    return true;
+}
+
+// Проверка на спам контент
+function isSpamContent(message) {
+    const spamKeywords = [
+        'http://', 'https://', 'www.', '.com', '.ru', '.org',
+        'casino', 'viagra', 'lottery', 'winner', 'congratulations',
+        'click here', 'free money', 'urgent', 'limited time'
+    ];
+    
+    const lowerMessage = message.toLowerCase();
+    const spamCount = spamKeywords.filter(keyword => 
+        lowerMessage.includes(keyword.toLowerCase())
+    ).length;
+    
+    // Если больше 2 спам-слов или сообщение слишком короткое
+    return spamCount > 2 || message.trim().length < 10;
+}
+
+// Управление состоянием кнопки отправки
+function setSubmitButtonLoading(isLoading) {
+    const button = document.getElementById('submitButton');
+    const buttonText = button.querySelector('.button-text');
+    const buttonLoader = button.querySelector('.button-loader');
+    
+    if (isLoading) {
+        button.disabled = true;
+        buttonText.style.display = 'none';
+        buttonLoader.style.display = 'flex';
+    } else {
+        button.disabled = false;
+        buttonText.style.display = 'inline';
+        buttonLoader.style.display = 'none';
+    }
+}
+
+// Показать toast уведомление
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    
+    const icon = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    }[type] || 'ℹ️';
+    
+    toast.innerHTML = `
+        <div class="toast-content">
+            <span class="toast-icon">${icon}</span>
+            <span class="toast-message">${message}</span>
+        </div>
+        <button class="toast-close" onclick="closeToast(this)">×</button>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Анимация появления
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Автоматическое скрытие через 5 секунд
+    setTimeout(() => closeToast(toast.querySelector('.toast-close')), 5000);
+}
+
+// Закрыть toast
+function closeToast(closeButton) {
+    const toast = closeButton.closest('.toast');
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
 }
 
 // Инициализация роутера при загрузке страницы
