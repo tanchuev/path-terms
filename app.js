@@ -84,7 +84,7 @@ class SimpleRouter {
                     
                     <section class="download-section">
                         <div class="store-buttons">
-                            <a href="https://apps.apple.com/app/idYOUR_APP_ID" target="_blank" class="store-button app-store" aria-label="Download on the App Store">
+                            <a href="https://apps.apple.com/app/id6747044786" target="_blank" class="store-button app-store" aria-label="Download on the App Store">
                                 <img src="assets/badges/app-store-badge-en.svg" alt="Download on the App Store">
                             </a>
                             <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play" aria-label="Get it on Google Play">
