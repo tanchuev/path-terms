@@ -376,9 +376,11 @@ body {
 
 .footer-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
     max-width: 400px;
 }
@@ -413,7 +415,8 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
-.privacy-link {
+.privacy-link,
+.terms-link {
     font-size: 14px;
     padding: 10px 20px;
     background: transparent;
@@ -421,9 +424,11 @@ body {
     color: rgba(255, 255, 255, 0.6);
     text-decoration: underline;
     text-underline-offset: 3px;
+    transition: all 0.3s ease;
 }
 
-.privacy-link:hover {
+.privacy-link:hover,
+.terms-link:hover {
     background: rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.8);
 }
@@ -748,6 +753,7 @@ body {
     
     .footer-content {
         width: 100%;
+        flex-direction: column;
     }
 }
 

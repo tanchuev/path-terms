@@ -28,6 +28,7 @@ class SimpleRouter {
         // Регистрация маршрутов с учетом базового пути
         this.register(this.basePath + '/', this.renderLanding);
         this.register(this.basePath + '/privacy', this.renderPrivacy);
+        this.register(this.basePath + '/terms', this.renderTerms);
         this.register(this.basePath + '/feedback', this.renderFeedback);
         
         // Обработка начального маршрута
@@ -122,6 +123,9 @@ class SimpleRouter {
                             </button>
                             <a class="footer-link privacy-link" onclick="router.navigate('/privacy')">
                                 Privacy Policy
+                            </a>
+                            <a class="footer-link terms-link" onclick="router.navigate('/terms')">
+                                Terms of Use
                             </a>
                         </div>
                     </footer>
@@ -252,6 +256,39 @@ class SimpleRouter {
             console.error('Error loading privacy policy:', error);
             const privacyContentDiv = document.querySelector('.privacy-content');
             privacyContentDiv.innerHTML = '<p>Error loading privacy policy. Please try again later.</p>';
+        }
+    }
+    
+    async renderTerms() {
+        const app = document.getElementById('app');
+        
+        app.innerHTML = `
+            <div class="page-container">
+                <div class="background-container">
+                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
+                </div>
+                
+                <div class="content page-content">
+                    <div class="page-body">
+                        <div class="terms-content">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        try {
+            const termsPath = this.basePath ? `${this.basePath}/terms_of_usage.md` : 'terms_of_usage.md';
+            const markdownContent = await this.loadMarkdownFile(termsPath);
+            const htmlContent = this.parseMarkdown(markdownContent);
+            
+            const termsContentDiv = document.querySelector('.terms-content');
+            termsContentDiv.innerHTML = htmlContent;
+        } catch (error) {
+            console.error('Error loading terms of use:', error);
+            const termsContentDiv = document.querySelector('.terms-content');
+            termsContentDiv.innerHTML = '<p>Error loading terms of use. Please try again later.</p>';
         }
     }
     
