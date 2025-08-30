@@ -15,12 +15,7 @@ class SimpleRouter {
     }
     
     getBasePath() {
-        // Проверяем, если это GitHub Pages
-        if (window.location.hostname.includes('github.io')) {
-            // Для GitHub Pages вида username.github.io/repository-name
-            // Базовый путь всегда /path-terms
-            return '/path-terms';
-        }
+        // Для Yandex Cloud и обычного хостинга базовый путь пустой
         return '';
     }
     
