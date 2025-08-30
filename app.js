@@ -67,7 +67,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="landing-page">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
+                    <img src="/assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content">
@@ -81,13 +81,13 @@ class SimpleRouter {
                     <section class="download-section">
                         <div class="store-buttons">
                             <a href="https://apps.apple.com/app/id6747044786" target="_blank" class="store-button app-store" aria-label="Download on the App Store">
-                                <img src="assets/badges/app-store-badge-en.svg" alt="Download on the App Store">
+                                <img src="/assets/badges/app-store-badge-en.svg" alt="Download on the App Store">
                             </a>
                             <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play" aria-label="Get it on Google Play">
-                                <img src="assets/badges/google-play-badge.svg" alt="Get it on Google Play">
+                                <img src="/assets/badges/google-play-badge.svg" alt="Get it on Google Play">
                             </a>
                             <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore" aria-label="Доступно в RuStore">
-                                <img src="assets/badges/rustore-badge.svg" alt="Доступно в RuStore">
+                                <img src="/assets/badges/rustore-badge.svg" alt="Доступно в RuStore">
                             </a>
                         </div>
                     </section>
@@ -97,7 +97,7 @@ class SimpleRouter {
                             <div class="screenshots-track" id="screenshotsTrack">
                                 ${screenshots.map((screenshot, index) => `
                                     <div class="screenshot-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-                                        <img src="assets/screenshots/${screenshot}" alt="Path Screenshot ${index + 1}" loading="lazy">
+                                        <img src="/assets/screenshots/${screenshot}" alt="Path Screenshot ${index + 1}" loading="lazy">
                                     </div>
                                 `).join('')}
                             </div>
@@ -227,7 +227,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
+                    <img src="/assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content page-content">
@@ -260,7 +260,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
+                    <img src="/assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content page-content">
@@ -293,7 +293,7 @@ class SimpleRouter {
         app.innerHTML = `
             <div class="page-container">
                 <div class="background-container">
-                    <img src="assets/html_landing_background.jpg" alt="Background" class="background-image">
+                    <img src="/assets/html_landing_background.jpg" alt="Background" class="background-image">
                 </div>
                 
                 <div class="content page-content">
