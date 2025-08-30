@@ -41,7 +41,12 @@ class SimpleRouter {
     }
     
     handleRoute() {
-        const path = window.location.pathname;
+        // Получаем путь и удаляем trailing slash если он есть (кроме корневого пути)
+        let path = window.location.pathname;
+        if (path.length > 1 && path.endsWith('/')) {
+            path = path.slice(0, -1);
+        }
+        
         const handler = this.routes[path] || this.routes[this.basePath + '/'];
         
         if (handler) {
