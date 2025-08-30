@@ -246,7 +246,7 @@ class SimpleRouter {
         `;
         
         try {
-            const privacyPath = this.basePath ? `${this.basePath}/privacy_policy.md` : 'privacy_policy.md';
+            const privacyPath = '/privacy_policy.md';
             const markdownContent = await this.loadMarkdownFile(privacyPath);
             const htmlContent = this.parseMarkdown(markdownContent);
             
@@ -279,7 +279,7 @@ class SimpleRouter {
         `;
         
         try {
-            const termsPath = this.basePath ? `${this.basePath}/terms_of_usage.md` : 'terms_of_usage.md';
+            const termsPath = '/terms_of_usage.md';
             const markdownContent = await this.loadMarkdownFile(termsPath);
             const htmlContent = this.parseMarkdown(markdownContent);
             
