@@ -91,7 +91,7 @@ class SimpleRouter {
                             <a href="https://play.google.com/store/apps/details?id=com.tanchuev.path" target="_blank" class="store-button google-play" aria-label="Get it on Google Play">
                                 <img src="/assets/badges/google-play-badge.svg" alt="Get it on Google Play">
                             </a>
-                            <a href="https://apps.rustore.ru/app/YOUR_APP_ID" target="_blank" class="store-button rustore" aria-label="Доступно в RuStore">
+                            <a href="https://www.rustore.ru/catalog/app/com.tanchuev.path" target="_blank" class="store-button rustore" aria-label="Доступно в RuStore">
                                 <img src="/assets/badges/rustore-badge.svg" alt="Доступно в RuStore">
                             </a>
                         </div>
